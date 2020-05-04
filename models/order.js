@@ -1,4 +1,4 @@
-import Sequelize from "sequelize";
+const Sequelize = require("sequelize");
 
 module.exports = function (sequelize) {
     const Order = sequelize.define(
@@ -13,27 +13,6 @@ module.exports = function (sequelize) {
             },
             orderDate: Sequelize.DATE,
             completed: Sequelize.BOOLEAN,
-            orderItem: {
-                type: Sequelize.INTEGER,
-                references: {
-                    model: "OrderItem",
-                    key: "id",
-                },
-            },
-            user: {
-                type: Sequelize.INTEGER,
-                references: {
-                    model: "User",
-                    key: "id",
-                },
-            },
-            coupon: {
-                type: Sequelize.INTEGER,
-                references: {
-                    model: "Coupon",
-                    key: "id",
-                },
-            },
         },
         { freezeTableName: true, timestamps: false }
     );

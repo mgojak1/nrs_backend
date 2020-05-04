@@ -1,4 +1,4 @@
-import Sequelize from "sequelize";
+const Sequelize = require("sequelize");
 
 module.exports = function (sequelize) {
     const Product = sequelize.define(
@@ -14,13 +14,6 @@ module.exports = function (sequelize) {
             name: Sequelize.STRING,
             description: Sequelize.STRING,
             price: Sequelize.REAL,
-            category: {
-                type: Sequelize.INTEGER,
-                references: {
-                    model: "Category",
-                    key: "id",
-                },
-            },
         },
         { freezeTableName: true, timestamps: false }
     );

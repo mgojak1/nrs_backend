@@ -1,4 +1,4 @@
-import Sequelize from "sequelize";
+const Sequelize = require("sequelize");
 
 module.exports = function (sequelize) {
     const OrderItem = sequelize.define(
@@ -12,13 +12,6 @@ module.exports = function (sequelize) {
                 autoIncrement: true,
             },
             quantity: Sequelize.INTEGER,
-            product: {
-                type: Sequelize.INTEGER,
-                references: {
-                    model: "Product",
-                    key: "id",
-                },
-            },
         },
         { freezeTableName: true, timestamps: false }
     );
