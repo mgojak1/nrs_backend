@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 
 module.exports = function (sequelize) {
     const Category = sequelize.define(
-        "category",
+        "categories",
         {
             id: {
                 type: Sequelize.INTEGER,
