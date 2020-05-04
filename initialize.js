@@ -1,14 +1,14 @@
-import {
-    sequelize,
-    user,
-    category,
-    order,
-    orderItem,
-    coupon,
-    product,
-} from "./db/db";
+const {
+    User,
+    Product,
+    Category,
+    Order,
+    OrderItem,
+    Coupon,
+    connection,
+} = require("./db");
 
-sequelize.sync({ force: true }).then(function () {
+connection.sync({ force: true }).then(function () {
     intialize().then(() => {
         console.log("Initalized");
         process.exit();
@@ -17,7 +17,7 @@ sequelize.sync({ force: true }).then(function () {
 
 function intialize() {
     const users = [
-        user.create({
+        {
             id: 1,
             name: "name1",
             lastName: "lastName1",
@@ -26,8 +26,8 @@ function intialize() {
             username: "username1",
             password: "password1",
             role: 1,
-        }),
-        user.create({
+        },
+        {
             id: 2,
             name: "name2",
             lastName: "lastName2",
@@ -36,85 +36,85 @@ function intialize() {
             username: "username2",
             password: "password2",
             role: 2,
-        }),
+        },
     ];
     const categories = [
-        category.create({
+        {
             id: 1,
             name: "category1",
             description: "description1",
-        }),
-        category.create({
+        },
+        {
             id: 2,
             name: "category2",
             description: "description2",
-        }),
+        },
     ];
     const products = [
-        product.create({
+        {
             id: 1,
             name: "product1",
             description: "description1",
-            category: 1,
+            categoryId: 1,
             price: 1,
-        }),
-        product.create({
+        },
+        {
             id: 2,
             name: "product2",
             description: "description2",
-            category: 2,
+            categoryId: 2,
             price: 2,
-        }),
+        },
     ];
 
     const coupons = [
-        coupon.create({
+        {
             id: 1,
             code: "coupon1",
-            expiryDate: "01.01.2020",
+            expiryDate: Date.now(),
             discount: 1,
             used: false,
-        }),
-        coupon.create({
+        },
+        {
             id: 2,
             code: "coupon2",
-            expiryDate: "02.02.2020",
+            expiryDate: Date.now(),
             discount: 2,
             used: true,
-        }),
+        },
     ];
 
     const orderItems = [
-        orderItem.create({ id: 1, quantity: 1, product: 1 }),
-        orderItem.create({ id: 2, quantity: 2, product: 2 }),
+        { id: 1, quantity: 1, productId: 1 },
+        { id: 2, quantity: 2, productId: 2 },
     ];
 
     const orders = [
-        order.create({
+        {
             id: 1,
-            orderDate: "01.01.2020",
+            orderDate: Date.now(),
             completed: false,
-            orderItem: 1,
-            user: 1,
-            coupon: 1,
-        }),
-        order.create({
+            orderItemId: 1,
+            userId: 1,
+            couponId: 1,
+        },
+        {
             id: 2,
-            orderDate: "02.02.2020",
+            orderDate: Date.now(),
             completed: true,
-            orderItem: 2,
-            user: 2,
-            coupon: 2,
-        }),
+            orderItemId: 2,
+            userId: 2,
+            couponId: 2,
+        },
     ];
 
     return new Promise((resolve, reject) => {
-        Promise.all(users)
-            .then(() => Promise.all(categories).then((all) => resolve(all)))
-            .then(() => Promise.all(coupons).then((all) => resolve(all)))
-            .then(() => Promise.all(products).then((all) => resolve(all)))
-            .then(() => Promise.all(orderItems).then((all) => resolve(all)))
-            .then(() => Promise.all(orders).then((all) => resolve(all)))
+        User.bulkCreate(users)
+            .then(Category.bulkCreate(categories))
+            .then(Coupon.bulkCreate(coupons))
+            .then(Product.bulkCreate(products))
+            .then(OrderItem.bulkCreate(orderItems))
+            .then(Order.bulkCreate(orders))
             .catch((reason) => reject(reason));
     });
 }

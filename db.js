@@ -1,48 +1,43 @@
-import Sequelize from "sequelize";
-const sequelize = new Sequelize("NRSTim1", "root", "root", {
-    host: "127.0.0.1",
-    dialect: "mysql",
-    logging: false,
+const Sequelize = require("sequelize");
+
+//const sequelize = new Sequelize("NRSTim1", "root", "root", {
+//    host: "127.0.0.1",
+//    dialect: "mysql",
+//    logging: false,
+//});
+
+const connection = new Sequelize("NRSTim1", "root", "root", {
+    host: "db.db",
+    dialect: "sqlite",
+    logging: false, //console.log
 });
-//Za rad na lokalnoj bazi
-//const sequelize = new Sequelize("NRSTim1","root","root",{ host:'db.db', dialect:"sqlite", logging: false });
 
 const db = {};
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+db.connection = connection;
 
 //Model imports
-db.user = sequelize.import(__dirname + "/models/user.js");
-db.category = sequelize.import(__dirname + "/models/category.js");
-db.coupon = sequelize.import(__dirname + "/models/coupon.js");
-db.product = sequelize.import(__dirname + "/models/product.js");
-db.orderItem = sequelize.import(__dirname + "/models/orderItem.js");
-db.order = sequelize.import(__dirname + "/models/order.js");
+db.User = connection.import(__dirname + "/models/user.js");
+db.Category = connection.import(__dirname + "/models/category.js");
+db.Coupon = connection.import(__dirname + "/models/coupon.js");
+db.Product = connection.import(__dirname + "/models/product.js");
+db.OrderItem = connection.import(__dirname + "/models/orderItem.js");
+db.Order = connection.import(__dirname + "/models/order.js");
 
-//Product - Category
-db.product.belongsTo(db.category, {
-    as: "category",
-    foreignKey: "productCategory",
-});
-db.category.hasOne(db.product, { foreignKey: "productCategory" });
+const { User, Category, Coupon, Product, OrderItem, Order } = db;
 
-//Product - OrderItem
-db.product.belongsTo(db.orderItem, {
-    as: "orderItem",
-    foreignKey: "orderItemProduct",
-});
-db.orderItem.hasOne(db.product, { foreignKey: "orderItemProduct" });
+Category.hasOne(Product);
+Product.belongsTo(Category);
 
-//Order - OrderItem
-db.order.hasMany(db.orderItem, { foreignKey: "item" });
-db.orderItem.belongsTo(db.order, { as: "orderItem", foreignKey: "item" });
+Product.hasOne(OrderItem);
+OrderItem.belongsTo(Product);
 
-//Order - User
-db.user.belongsTo(db.order, { foreignKey: "orderUser" });
-db.order.hasOne(db.user, { as: "user", foreignKey: "orderUser" });
+OrderItem.hasMany(Order);
+Order.belongsTo(OrderItem);
 
-//Order - Coupon
-db.coupon.belongsTo(db.order, { foreignKey: "orderCoupon" });
-db.order.hasOne(db.coupon, { as: "user", foreignKey: "orderCoupon" });
+User.hasOne(Order);
+Order.belongsTo(User);
 
-export default db;
+Coupon.hasOne(Order);
+Order.belongsTo(Coupon);
+
+module.exports = db;
