@@ -10,9 +10,17 @@ const {
     connection,
 } = require("./db");
 
-// Body parser middleware
+// Import routes
+const categoryRoute = require('./routes/category');
+
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// route middlewares
+app.use('/api', categoryRoute);
+
+
 
 // --- Users ---
 app.get("/user", async (req, res) => {
