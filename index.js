@@ -11,14 +11,14 @@ const {
 } = require("./db");
 
 // Import routes
-const categoryRoute = require('./routes/category');
+const orderRoute = require('./routes/order');
 
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // route middlewares
-app.use('/api', categoryRoute);
+app.use('/api', orderRoute);
 
 
 
