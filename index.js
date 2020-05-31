@@ -160,7 +160,7 @@ app.post('/product', async (req, res) => {
         const category = await Category.findOne({ where: { id: data.categoryId } });
         if (!data.name || !data.description || !data.price || data.price <= 0 || category == null) {
             if (category == null) {
-                res.status(400).send({ msg: `Invalid categoriy for new product` });
+                res.status(400).send({ msg: `Invalid category for new product` });
             } else {
                 res.status(400).send({ msg: `Invalid data for new product` });
             }
@@ -224,6 +224,96 @@ app.put("/product/:id", async (req, res) => {
         });
     res.send({ msg: `Product with the id = ${req.params.id} updated` });
 });
+
+// --- Cupons ---
+app.get("/coupon", async (req, res) => {
+    const dataArray = await Coupon.findAll({ raw: true });
+    res.send(dataArray);
+});
+
+app.post('/coupon', async (req, res) => {
+    const data = req.body;
+    data.expiryDate = getDateFromString(data.expiryDate);
+    data.discount = parseFloat(data.discount);
+    // Validation
+    if (!data.code || !data.expiryDate || !data.discount || data.discount <= 0 || data.discount > 1) {
+        res.status(400).send({ msg: `Invalid data for new cupon` });
+        return;
+    }
+    data.used = false;
+    await Coupon.create(data);
+    const dataArray = await Coupon.findAll({ raw: true });
+    res.send(dataArray);
+});
+
+app.get("/coupon/:id", async (req, res) => {
+    try {
+        const data = await Coupon.findOne({ where: { id: req.params.id } });
+        if (data == null) {
+            res.status(400).send({ msg: `There is no coupon with a specified id = ${req.params.id}` });
+            return;
+        }
+        res.send(data);
+    } catch (e) {
+        console.log("ERROR: Wrong id for coupon");
+    }
+});
+
+app.delete("/coupon/:id", async (req, res) => {
+    try {
+        await Coupon.destroy({ where: { id: req.params.id } });
+        res.send({ msg: `Coupon with id ${req.params.id} deleted` });
+    } catch (e) {
+        console.log("ERROR: Wrong id for coupon");
+    }
+});
+
+app.put("/coupon/:id", async (req, res) => {
+    console.log("Enter cuppoone");
+
+    // Cupon egzists
+    const cuponDb = await Coupon.findOne({ where: { id: req.params.id } });
+    if (cuponDb == null) {
+        res.status(400).send({ msg: `There is no cupon with a specified id = ${req.params.id}` });
+        return;
+    }
+    // User cannot enter invalid values
+    const cuponReq = req.body;
+    const discountTemp = parseFloat(cuponReq.discount);
+    const usedTemp = parseInt(cuponReq.used);
+
+    const code = cuponReq.code || cuponDb.code;
+    const expiryDate = getDateFromString(cuponReq.expiryDate) || cuponDb.expiryDate;
+    const discount = (!isNaN(discountTemp) && discountTemp > 0 && discountTemp <= 1) ? discountTemp : cuponDb.discount;
+    const used = (usedTemp === 0 || usedTemp === 1) ? !!usedTemp : cuponDb.used;
+
+    await Coupon.update({
+        code: code,
+        expiryDate: expiryDate,
+        discount: discount,
+        used: used
+    },
+    {
+        where: { id: req.params.id }
+    });
+    res.send({ msg: `Coupon with the id = ${req.params.id} updated` });
+});
+
+
+
+
+function getDateFromString(dateString) {
+    if (!dateString) {
+        return null;
+    }
+    const d = dateString.split(".");
+    const date = new Date(`${d[2]}-${d[1]}-${d[0]}T23:59`);
+    if (date instanceof Date && !isNaN(date)) {
+        return date;
+    }
+    return null;
+}
+
 
 app.listen(8080);
 console.log("Server started on port 8080");
