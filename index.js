@@ -23,12 +23,12 @@ app.use('/api', orderRoute);
 
 
 // --- Users ---
-app.get("/user", async (req, res) => {
+app.get("/api/users", async (req, res) => {
     const dataArray = await User.findAll();
     res.send(dataArray);
 });
 
-app.post('/user', async (req, res) => {
+app.post('/api/user', async (req, res) => {
     const data = req.body;
     data.role = parseInt(data.role);
     if (!data.username || !data.password || !data.role) {
@@ -44,7 +44,7 @@ app.post('/user', async (req, res) => {
     }
 });
 
-app.get("/user/:id", async (req, res) => {
+app.get("/api/user/:id", async (req, res) => {
     try {
         const data = await User.findOne({ where: { id: req.params.id } });
         if (data == null) {
@@ -57,7 +57,7 @@ app.get("/user/:id", async (req, res) => {
     }
 });
 
-app.delete("/user/:id", async (req, res) => {
+app.delete("/api/user/:id", async (req, res) => {
     try {
         await User.destroy({ where: { id: req.params.id } });
         res.send({ msg: `User with id ${req.params.id} deleted` });
@@ -66,7 +66,7 @@ app.delete("/user/:id", async (req, res) => {
     }
 });
 
-app.put("/user/:id", async (req, res) => {
+app.put("/api/user/:id", async (req, res) => {
     const id = req.params.id;
     const dataFromReq = req.body;
 
@@ -91,12 +91,12 @@ app.put("/user/:id", async (req, res) => {
 });
 
 // --- Categories ---
-app.get("/category", async (req, res) => {
+app.get("/api/categories", async (req, res) => {
     const dataArray = await Category.findAll();
     res.send(dataArray);
 });
 
-app.post('/category', async (req, res) => {
+app.post('/api/category', async (req, res) => {
     const data = req.body;
     if (!data.name || !data.description) {
         res.status(400).send({ error: "Invalid data for new category" });
@@ -111,7 +111,7 @@ app.post('/category', async (req, res) => {
     }
 });
 
-app.get("/category/:id", async (req, res) => {
+app.get("/api/category/:id", async (req, res) => {
     try {
         const data = await Category.findOne({ where: { id: req.params.id } });
         if (data == null) {
@@ -124,7 +124,7 @@ app.get("/category/:id", async (req, res) => {
     }
 });
 
-app.delete("/category/:id", async (req, res) => {
+app.delete("/api/category/:id", async (req, res) => {
     try {
         await Category.destroy({ where: { id: req.params.id } });
         res.send({ msg: `Category with id ${req.params.id} deleted` });
@@ -133,7 +133,7 @@ app.delete("/category/:id", async (req, res) => {
     }
 });
 
-app.put("/category/:id", async (req, res) => {
+app.put("/api/category/:id", async (req, res) => {
     const id = req.params.id;
     const dataFromReq = req.body;
 
@@ -154,12 +154,12 @@ app.put("/category/:id", async (req, res) => {
 });
 
 // --- Products ---
-app.get("/product", async (req, res) => {
+app.get("/api/products", async (req, res) => {
     const dataArray = await Product.findAll();
     res.send(dataArray);
 });
 
-app.post('/product', async (req, res) => {
+app.post('/api/product', async (req, res) => {
     const data = req.body;
     data.price = parseFloat(req.body.price);
     data.categoryId = parseInt(data.categoryId);
@@ -182,7 +182,7 @@ app.post('/product', async (req, res) => {
     }
 });
 
-app.get("/product/:id", async (req, res) => {
+app.get("/api/product/:id", async (req, res) => {
     try {
         const data = await Product.findOne({ where: { id: req.params.id } });
         if (data == null) {
@@ -195,7 +195,7 @@ app.get("/product/:id", async (req, res) => {
     }
 });
 
-app.delete("/product/:id", async (req, res) => {
+app.delete("/api/product/:id", async (req, res) => {
     try {
         await Product.destroy({ where: { id: req.params.id } });
         res.send({ msg: `Product with id ${req.params.id} deleted` });
@@ -204,7 +204,7 @@ app.delete("/product/:id", async (req, res) => {
     }
 });
 
-app.put("/product/:id", async (req, res) => {
+app.put("/api/product/:id", async (req, res) => {
     // Validation - Prodcut egzists 
     const productDb = await Product.findOne({ where: { id: req.params.id } });
     if (productDb == null) {
@@ -234,12 +234,12 @@ app.put("/product/:id", async (req, res) => {
 });
 
 // --- Cupons ---
-app.get("/coupon", async (req, res) => {
+app.get("/api/coupons", async (req, res) => {
     const dataArray = await Coupon.findAll({ raw: true });
     res.send(dataArray);
 });
 
-app.post('/coupon', async (req, res) => {
+app.post('/api/coupon', async (req, res) => {
     const data = req.body;
     data.expiryDate = getDateFromString(data.expiryDate);
     data.discount = parseFloat(data.discount);
@@ -254,7 +254,7 @@ app.post('/coupon', async (req, res) => {
     res.send(dataArray);
 });
 
-app.get("/coupon/:id", async (req, res) => {
+app.get("/api/coupon/:id", async (req, res) => {
     try {
         const data = await Coupon.findOne({ where: { id: req.params.id } });
         if (data == null) {
@@ -267,7 +267,7 @@ app.get("/coupon/:id", async (req, res) => {
     }
 });
 
-app.delete("/coupon/:id", async (req, res) => {
+app.delete("/api/coupon/:id", async (req, res) => {
     try {
         await Coupon.destroy({ where: { id: req.params.id } });
         res.send({ msg: `Coupon with id ${req.params.id} deleted` });
@@ -276,7 +276,7 @@ app.delete("/coupon/:id", async (req, res) => {
     }
 });
 
-app.put("/coupon/:id", async (req, res) => {
+app.put("/api/coupon/:id", async (req, res) => {
     console.log("Enter cuppoone");
 
     // Cupon egzists
