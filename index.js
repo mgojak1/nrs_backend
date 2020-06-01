@@ -10,15 +10,22 @@ const {
     connection,
 } = require("./db");
 
+
 // Import routes
 const orderRoute = require('./routes/order');
+const orderItemRoute = require('./routes/orderItem');
 
 // Middlewares
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // route middlewares
 app.use('/api', orderRoute);
+app.use('/api', orderItemRoute);
+
+
+
 
 
 

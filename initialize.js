@@ -84,9 +84,35 @@ function intialize() {
         },
     ];
 
+    // const orderItems = [
+    //     { id: 1, quantity: 1, productId: 1 },
+    //     { id: 2, quantity: 2, productId: 2 },
+    // ];
+
+    // const orders = [
+    //     {
+    //         id: 1,
+    //         orderDate: Date.now(),
+    //         completed: false,
+    //         orderItemId: 1,
+    //         userId: 1,
+    //         couponId: 1,
+    //     },
+    //     {
+    //         id: 2,
+    //         orderDate: Date.now(),
+    //         completed: true,
+    //         orderItemId: 2,
+    //         userId: 2,
+    //         couponId: 2,
+    //     },
+    // ];
+
+
     const orderItems = [
-        { id: 1, quantity: 1, productId: 1 },
-        { id: 2, quantity: 2, productId: 2 },
+        { id: 1, quantity: 1, productId: 1, orderId: 1 },
+        { id: 2, quantity: 2, productId: 2, orderId: 2 },
+        { id: 3, quantity: 2, productId: 2, orderId: 2 },
     ];
 
     const orders = [
@@ -94,7 +120,6 @@ function intialize() {
             id: 1,
             orderDate: Date.now(),
             completed: false,
-            orderItemId: 1,
             userId: 1,
             couponId: 1,
         },
@@ -102,19 +127,23 @@ function intialize() {
             id: 2,
             orderDate: Date.now(),
             completed: true,
-            orderItemId: 2,
             userId: 2,
             couponId: 2,
         },
     ];
+
+
+
+
+
 
     return new Promise((resolve, reject) => {
         User.bulkCreate(users)
             .then(Category.bulkCreate(categories))
             .then(Coupon.bulkCreate(coupons))
             .then(Product.bulkCreate(products))
-            .then(OrderItem.bulkCreate(orderItems))
             .then(Order.bulkCreate(orders))
+            .then(OrderItem.bulkCreate(orderItems))
             .catch((reason) => reject(reason));
     });
 }

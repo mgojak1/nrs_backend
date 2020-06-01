@@ -31,8 +31,10 @@ Product.belongsTo(Category);
 Product.hasOne(OrderItem);
 OrderItem.belongsTo(Product);
 
-OrderItem.hasMany(Order);
-Order.belongsTo(OrderItem);
+Order.hasMany(OrderItem, {
+    onDelete: "cascade"
+})
+OrderItem.belongsTo(Order) 
 
 User.hasOne(Order);
 Order.belongsTo(User);
