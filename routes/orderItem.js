@@ -1,25 +1,23 @@
-const router = require('express').Router();
+const router = require("express").Router();
 const {
-  User,
-  Product,
-  Category,
-  Order,
-  OrderItem,
-  Coupon,
-  connection,
+    User,
+    Product,
+    Category,
+    Order,
+    OrderItem,
+    Coupon,
+    connection,
 } = require("./../db");
 
-router.get('/orderitems', async (req, res) => {
+router.get("/orderitems", async (req, res) => {
     const ordersItemsDB = await OrderItem.findAll({
         attributes: {
-            exclude: ['productId']
+            exclude: ["productId"],
         },
-        include: [
-           { model: Product }
-        ]
+        include: [{ model: Product }],
     });
-    res.send(ordersItemsDB)
-})
+    res.send(ordersItemsDB);
+});
 
 router.delete("/orderitem/:id", async (req, res) => {
     try {
@@ -28,25 +26,19 @@ router.delete("/orderitem/:id", async (req, res) => {
     } catch (e) {
         console.log("ERROR: Wrong id for OrderItem");
     }
-  });
-
-
-router.get('/orderitem/:id',async (req, res) => {
-    const ordersItemsDB = await OrderItem.findOne({
-        where: {
-            id: req.params.id
-          },
-        attributes: {
-            exclude: ['productId']
-        },
-        include: [
-           { model: Product }
-        ]
-    });
-    res.send(ordersItemsDB)
 });
 
-
-
+router.get("/orderitems/:id", async (req, res) => {
+    const ordersItemsDB = await OrderItem.findAll({
+        where: {
+            orderId: req.params.id,
+        },
+        attributes: {
+            exclude: ["productId"],
+        },
+        include: [{ model: Product }],
+    });
+    res.send(ordersItemsDB);
+});
 
 module.exports = router;
