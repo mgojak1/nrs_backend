@@ -49,7 +49,9 @@ router.get('/order/:id', async (req, res) => {
 
 router.post('/order', async (req, res) => {
   let {orderDate, userId, cuponId, orderItems} = req.body;
-  
+  if (orderItems == null || orderItems.length == 0) {
+    res.status(400).send("No order items specified");
+  }
   // When creating a new order atribute completed is always false;
   let completed = false;
 
