@@ -19,24 +19,34 @@ function intialize() {
     const users = [
         {
             id: 1,
-            name: "name1",
-            lastName: "lastName1",
-            email: "email1",
+            name: "admin",
+            lastName: "adminic",
+            email: "email1@gmail.com",
             address: "address1",
-            username: "username1",
-            password: "password1",
-            role: 1,
+            username: "admin1",
+            password: "admin",
+            role: 2,
         },
         {
             id: 2,
-            name: "name2",
-            lastName: "lastName2",
-            email: "email2",
+            name: "employee",
+            lastName: "employeeic",
+            email: "email2@gmail.com",
             address: "address2",
-            username: "username2",
-            password: "password2",
-            role: 2,
+            username: "employee1",
+            password: "employee",
+            role: 1,
         },
+        {
+            id: 3,
+            name: "client",
+            lastName: "clientic",
+            email: "email3@gmail.com",
+            address: "address3",
+            username: "client",
+            password: "client",
+            role: 0,
+        }
     ];
     const categories = [
         {
@@ -83,31 +93,6 @@ function intialize() {
             used: true,
         },
     ];
-
-    // const orderItems = [
-    //     { id: 1, quantity: 1, productId: 1 },
-    //     { id: 2, quantity: 2, productId: 2 },
-    // ];
-
-    // const orders = [
-    //     {
-    //         id: 1,
-    //         orderDate: Date.now(),
-    //         completed: false,
-    //         orderItemId: 1,
-    //         userId: 1,
-    //         couponId: 1,
-    //     },
-    //     {
-    //         id: 2,
-    //         orderDate: Date.now(),
-    //         completed: true,
-    //         orderItemId: 2,
-    //         userId: 2,
-    //         couponId: 2,
-    //     },
-    // ];
-
 
     const orderItems = [
         { id: 1, quantity: 1, productId: 1, orderId: 1 },

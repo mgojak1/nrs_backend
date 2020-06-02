@@ -14,6 +14,7 @@ const {
 // Import routes
 const orderRoute = require('./routes/order');
 const orderItemRoute = require('./routes/orderItem');
+const authRoute = require('./routes/auth');
 
 // Middlewares
 
@@ -23,6 +24,8 @@ app.use(express.urlencoded({ extended: false }));
 // route middlewares
 app.use('/api', orderRoute);
 app.use('/api', orderItemRoute);
+app.use('/api', authRoute);
+
 
 
 

@@ -48,10 +48,10 @@ router.get('/order/:id', async (req, res) => {
 });
 
 router.post('/order', async (req, res) => {
-  let {orderDate, completed, userId, cuponId, orderItems} = req.body;
+  let {orderDate, userId, cuponId, orderItems} = req.body;
   
   // When creating a new order atribute completed is always false;
-  completed = false;
+  let completed = false;
 
   // Check if there are order items
   if (!orderItems || orderItems.length == 0 || !userId) {
@@ -149,56 +149,6 @@ Promise.all(promises)
       res.status(400).send({ msg: `Bada data: Cannot create order items` });
     });
 });
-
-
-
-//{ id: 1, quantity: 1, productId: 1, orderId: 1 },
-
-// id: 1,
-// orderDate: Date.now(),
-// completed: false,
-// userId: 1,
-// couponId: 1,
-
-
-
-// app.put("/api/coupon/:id", async (req, res) => {
-//   console.log("Enter cuppoone");
-
-//   // Cupon egzists
-//   const cuponDb = await Coupon.findOne({ where: { id: req.params.id } });
-//   if (cuponDb == null) {
-//       res.status(400).send({ msg: `There is no cupon with a specified id = ${req.params.id}` });
-//       return;
-//   }
-//   // User cannot enter invalid values
-//   const cuponReq = req.body;
-//   const discountTemp = parseFloat(cuponReq.discount);
-//   const usedTemp = parseInt(cuponReq.used);
-
-//   const code = cuponReq.code || cuponDb.code;
-//   const expiryDate = getDateFromString(cuponReq.expiryDate) || cuponDb.expiryDate;
-//   const discount = (!isNaN(discountTemp) && discountTemp > 0 && discountTemp <= 1) ? discountTemp : cuponDb.discount;
-//   const used = (usedTemp === 0 || usedTemp === 1) ? !!usedTemp : cuponDb.used;
-
-//   await Coupon.update({
-//       code: code,
-//       expiryDate: expiryDate,
-//       discount: discount,
-//       used: used
-//   },
-//   {
-//       where: { id: req.params.id }
-//   });
-//   res.send({ msg: `Coupon with the id = ${req.params.id} updated` });
-// });
-
-
-
-
-
-
-
 
 
 module.exports = router;
