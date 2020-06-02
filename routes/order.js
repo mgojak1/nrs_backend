@@ -64,7 +64,7 @@ router.post('/order', async (req, res) => {
   let orderDb;
   let order;
   try {
-   orderDb = await Order.create({orderDate:getDateFromString(orderDate), completed:completed, userId:userId, couponId:cuponId});  
+   orderDb = await Order.create({orderDate:orderDate, completed:completed, userId:userId, couponId:cuponId});  
   } catch (e) {
     res.status(400).send({ msg: `DataBase Error: Something went wrong with database` });
   }
@@ -118,7 +118,7 @@ router.put("/order/:id", async (req, res) => {
 
 
     // No validation - it will be added via middleware
-  orderDate = getDateFromString(orderDate) || orderDb.orderDate;
+  orderDate = orderDate || orderDb.orderDate;
   userId = parseInt(userId) || orderDb.userId;
   couponId = parseInt(couponId) || orderDb.couponId;
   completed = (completed == null) ? orderDb.completed : completed; 

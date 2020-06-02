@@ -251,7 +251,7 @@ app.get("/api/coupons", async (req, res) => {
 
 app.post('/api/coupon', async (req, res) => {
     const data = req.body;
-    data.expiryDate = getDateFromString(data.expiryDate);
+    data.expiryDate = data.expiryDate;
     data.discount = parseFloat(data.discount);
     // Validation
     if (!data.code || !data.expiryDate || !data.discount || data.discount <= 0 || data.discount > 1) {
@@ -301,7 +301,7 @@ app.put("/api/coupon/:id", async (req, res) => {
     const usedTemp = parseInt(cuponReq.used);
 
     const code = cuponReq.code || cuponDb.code;
-    const expiryDate = getDateFromString(cuponReq.expiryDate) || cuponDb.expiryDate;
+    const expiryDate = getDateFromStringcuponReq.expiryDate || cuponDb.expiryDate;
     const discount = (!isNaN(discountTemp) && discountTemp > 0 && discountTemp <= 1) ? discountTemp : cuponDb.discount;
     const used = (usedTemp === 0 || usedTemp === 1) ? !!usedTemp : cuponDb.used;
 
