@@ -25,7 +25,7 @@ function intialize() {
             address: "address1",
             username: "admin1",
             password: "$2b$10$Opn1pnyxtr7XbRpGoyf2GuowuBP0dvYD8eQdJJ./ug8cDYYaCcFcS", //password
-            role: 2,
+            role: 1,
         },
         {
             id: 2,
@@ -36,7 +36,6 @@ function intialize() {
             username: "employee1",
             password: "$2b$10$Opn1pnyxtr7XbRpGoyf2GuowuBP0dvYD8eQdJJ./ug8cDYYaCcFcS", //password
             role: 2,
-            role: 1,
         },
         {
             id: 3,
@@ -46,7 +45,7 @@ function intialize() {
             address: "address3",
             username: "client",
             password: "$2b$10$Opn1pnyxtr7XbRpGoyf2GuowuBP0dvYD8eQdJJ./ug8cDYYaCcFcS",
-            role: 0,
+            role: 3,
         }
     ];
     const categories = [
