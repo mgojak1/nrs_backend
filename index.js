@@ -132,7 +132,7 @@ app.get("/api/categories", async (req, res) => {
 
 app.post('/api/category', async (req, res) => {
     const data = req.body;
-    if (!data.name || !data.description) {
+    if (!data.name) {
         res.status(400).send({ error: "Invalid data for new category" });
         return;
     }
