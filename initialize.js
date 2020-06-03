@@ -83,15 +83,36 @@ function intialize() {
             id: 1,
             code: "coupon1",
             expiryDate: Date.now(),
-            discount: 1,
+            discount: 0.1,
             used: false,
         },
         {
             id: 2,
             code: "coupon2",
             expiryDate: Date.now(),
-            discount: 2,
-            used: true,
+            discount: 0.2,
+            used: false,
+        },
+        {
+            id: 3,
+            code: "coupon3",
+            expiryDate: Date.now(),
+            discount: 0.3,
+            used: false,
+        },
+        {
+            id: 4,
+            code: "coupon4",
+            expiryDate: Date.now(),
+            discount: 0.4,
+            used: false,
+        },
+        {
+            id: 5,
+            code: "coupon5",
+            expiryDate: Date.now(),
+            discount: 0.5,
+            used: false,
         },
     ];
 
@@ -112,7 +133,7 @@ function intialize() {
         {
             id: 2,
             orderDate: Date.now(),
-            completed: true,
+            completed: false,
             userId: 2,
             couponId: 2,
         },
