@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const {
@@ -10,6 +11,7 @@ const {
     connection,
 } = require("./db");
 
+const generateHashPass = require('./generate_pass');
 
 // Import routes
 const orderRoute = require('./routes/order');
@@ -27,6 +29,26 @@ app.use('/api', orderItemRoute);
 app.use('/api', authRoute);
 
 
+
+// app.get("/api/nesta", (req, res) => {
+//     const token = req.headers['authorization']
+//     console.log(token);
+//     if(!token) res.status(401).send('Unauthorize user')
+
+//    try{
+//         const decoded = jwt.verify(token,process.env.TOKEN_SECRET);
+//         req.user = decoded
+//         console.log("Requser:" , req.user);
+//         console.log("Decoded:" , decoded);
+//         res.send("ok");
+//         // next()
+
+//    }catch(e){
+//     res.status(400).json('Token not valid')
+//    }
+
+//     res.send("nest");
+// });
 
 
 
@@ -46,6 +68,7 @@ app.post('/api/user', async (req, res) => {
         return;
     }
     try {
+        data.password = await generateHashPass (data.password);
         await User.create(data);
         const dataArray = await User.findAll();
         res.send(dataArray);
@@ -85,13 +108,14 @@ app.put("/api/user/:id", async (req, res) => {
         res.status(400).send({ msg: `There is no user with a specified id = ${req.params.id}` });
         return;
     }
-
+    const hashPassword = await generateHashPass(dataFromReq.password);
     await User.update({
         name: dataFromReq.name || dataFromDb.name,
         lastName: dataFromReq.lastName || dataFromDb.lastName,
         address: dataFromReq.address || dataFromDb.address,
         username: dataFromReq.username || dataFromDb.username,
-        password: dataFromReq.password || dataFromDb.password,
+        email: dataFromReq.email || dataFromDb.email,
+        password: hashPassword || dataFromDb.password,
         role: parseInt(dataFromReq.role) || dataFromDb.role
     },
         {
@@ -318,27 +342,7 @@ app.put("/api/coupon/:id", async (req, res) => {
 });
 
 
-
-
-function getDateFromString(dateString) {
-    if (!dateString) {
-        return null;
-    }
-    const d = dateString.split(".");
-    const date = new Date(`${d[2]}-${d[1]}-${d[0]}T23:59`);
-    if (date instanceof Date && !isNaN(date)) {
-        return date;
-    }
-    return null;
-}
-
-
 app.listen(8080);
 console.log("Server started on port 8080");
 
-//Querry example
-//Where
-//const users = await User.findAll({ where: { id: 1 }});
-//const users = await User.findAll({ where: { id: 1, name: "name" }});
-//Update
-//await User.update({ name: "name" }, { where: { id: 1 }});
+

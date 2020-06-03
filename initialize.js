@@ -24,7 +24,7 @@ function intialize() {
             email: "email1@gmail.com",
             address: "address1",
             username: "admin1",
-            password: "admin",
+            password: "$2b$10$Opn1pnyxtr7XbRpGoyf2GuowuBP0dvYD8eQdJJ./ug8cDYYaCcFcS", //password
             role: 2,
         },
         {
@@ -34,7 +34,8 @@ function intialize() {
             email: "email2@gmail.com",
             address: "address2",
             username: "employee1",
-            password: "employee",
+            password: "$2b$10$Opn1pnyxtr7XbRpGoyf2GuowuBP0dvYD8eQdJJ./ug8cDYYaCcFcS", //password
+            role: 2,
             role: 1,
         },
         {
@@ -44,7 +45,7 @@ function intialize() {
             email: "email3@gmail.com",
             address: "address3",
             username: "client",
-            password: "client",
+            password: "$2b$10$Opn1pnyxtr7XbRpGoyf2GuowuBP0dvYD8eQdJJ./ug8cDYYaCcFcS",
             role: 0,
         }
     ];

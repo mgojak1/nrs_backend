@@ -1,42 +1,34 @@
+require("dotenv").config();
 const router = require('express').Router();
 const {
-  User,
-  Product,
-  Category,
-  Order,
-  OrderItem,
-  Coupon,
-  connection,
+  User
 } = require("../db");
 
 const ROLE = require('../roles');
-
-const validation = require('../validation');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const validation = require('../validation');
+const generateHashPass = require('../generate_pass')
 
-require("dotenv").config();
 
 router.post('/register', validation.validateUserRegister, async (req, res) => {
   // Data will alredy be validated
   const user = req.body;
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(user.password, salt);
-
+  const hashedPassword = await generateHashPass(user.password);
+  console.log(hashedPassword);
   // Insert user into db
   user.password = hashedPassword;
   user.role = ROLE.CLIENT;
-  const userDb = await User.create(user);
-  res.send(user);
+  await User.create(user);
+  const {password, ... userSend} = user;
+  res.send(userSend);
 });
 
 router.post('/login', validation.validateUserLogin, async (req, res) => {
   // Return token, user is defined in req
-  const token = jwt.sign({id: req.user.id, role: req.user.role},process.env.TOKEN_SECRET);
+  const token = jwt.sign({user: req.user},process.env.TOKEN_SECRET);
   res.header('Authorization', token);
-  res.send(req.user);
-
+  const {password, ... userSend} = req.user.dataValues;
+  res.send(userSend);
 });
 
 module.exports = router;
-
