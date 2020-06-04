@@ -208,6 +208,8 @@ function intialize() {
         { id: 2, quantity: 2, productId: 8, orderId: 1 },
         { id: 3, quantity: 1, productId: 4, orderId: 2 },
         { id: 4, quantity: 1, productId: 9, orderId: 2 },
+        { id: 5, quantity: 3, productId: 2, orderId: 3 },
+        { id: 6, quantity: 3, productId: 7, orderId: 3 },
     ];
 
     const orders = [
@@ -224,6 +226,13 @@ function intialize() {
             completed: false,
             userId: 3,
             couponId: 3,
+        },
+        {
+            id: 3,
+            orderDate: Date.now(),
+            completed: true,
+            userId: 3,
+            couponId: 2,
         },
     ];
 
