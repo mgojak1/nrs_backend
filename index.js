@@ -269,7 +269,7 @@ app.put("/api/product/:id", async (req, res) => {
 
 // --- Cupons ---
 app.get("/api/coupons", async (req, res) => {
-    const dataArray = await Coupon.findAll({ raw: true });
+    const dataArray = await Coupon.findAll({ });
     res.send(dataArray);
 });
 
@@ -284,7 +284,7 @@ app.post('/api/coupon', async (req, res) => {
     }
     data.used = false;
     await Coupon.create(data);
-    const dataArray = await Coupon.findAll({ raw: true });
+    const dataArray = await Coupon.findAll({});
     res.send(dataArray);
 });
 
