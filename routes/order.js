@@ -127,6 +127,7 @@ router.put("/order/:id", async (req, res) => {
       orderDate : orderDate,
       userId : userId,
       couponId : couponId,
+      completed : completed
   },
       {
           where: { id: req.params.id }
